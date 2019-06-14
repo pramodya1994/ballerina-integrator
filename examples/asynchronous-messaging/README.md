@@ -1,3 +1,8 @@
+---
+layout: post
+title:  "Asynchrouns messaging"
+categories: guides messaging
+---
 # Asynchrouns messaging 
 This guide demonstrates how to send a message asynchronously to an HTTP service. It uses ActiveMQ as the message broker to make the invocation asynchrouns. 
 
@@ -34,68 +39,7 @@ The following diagram illustrates the scenario:
 Take a look at the code samples below to understand how to implement each service. 
 
 **http_message_receiver.bal**
-```ballerina
-import ballerina/log;
-import ballerina/http;
-import ballerina/jms;
-
-
-// Initialize a JMS connection with the provider
-// 'providerUrl' and 'initialContextFactory' vary based on the JMS provider you use
-// 'Apache ActiveMQ' has been used as the message broker in this example
-jms:Connection jmsConnection = new({
-        initialContextFactory: "org.apache.activemq.jndi.ActiveMQInitialContextFactory",
-        providerUrl: "tcp://localhost:61616"
-    });
-
-// Initialize a JMS session on top of the created connection
-jms:Session jmsSession = new(jmsConnection, {
-        acknowledgementMode: "AUTO_ACKNOWLEDGE"
-    });
-
-// Initialize a queue sender using the created session
-jms:QueueSender jmsProducer = new(jmsSession, queueName = "appointments");
-
-//export http listner port on 9091
-listener http:Listener httpListener = new(9091);
-
-// Healthcare Service, which allows users to channel doctors online
-@http:ServiceConfig { basePath: "/healthcare" }
-service healthcareService on httpListener {
-    // Resource that allows users to make appointments
-    @http:ResourceConfig { methods: ["POST"], consumes: ["application/json"],
-        produces: ["application/json"] }
-    resource function make_appointment(http:Caller caller, http:Request request) returns error? {
-        http:Response response = new;
-
-        // Try parsing the JSON payload from the request
-        var payload = request.getJsonPayload();
-        if (payload is json) {
-            json responseMessage;
-            var queueMessage = jmsSession.createTextMessage(payload.toString());
-            // Send the message to the JMS queue
-            if (queueMessage is jms:Message) {
-                check jmsProducer->send(queueMessage);
-                // Construct a success message for the response
-                responseMessage = { "Message": "Your appointment is successfully placed" };
-                log:printInfo("New channel request added to the JMS queue; Patient: " + payload.patient.name.toString());
-            } else {
-                responseMessage = { "Message": "Error occured while placing the appointment" };
-                log:printError("Error occured while adding channeling information to the JMS queue");
-            }
-            // Send response to the user
-            response.setJsonPayload(responseMessage);
-            check caller->respond(response);
-        } else {
-            response.statusCode = 400;
-            response.setJsonPayload({ "Message": "Invalid payload - Not a valid JSON payload" });
-            check caller->respond(response);
-            return;
-        }
-
-    }
-}
-```
+<!-- INCLUDE_CODE: guide/http_message_receiver.bal -->
 
 **message_forwarder.bal**
 ```ballerina
