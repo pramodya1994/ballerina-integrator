@@ -1,3 +1,9 @@
+---
+layout: post
+title:  "Gmail Connector"
+categories: connector
+---
+
 # Gmail Connector
 Demonstrate the use of Ballerina's GMail module to send an email to a sepecific email address. 
 
