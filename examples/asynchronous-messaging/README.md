@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Asynchrouns messaging"
-categories: guides messaging
+categories: messaging
 ---
 # Asynchrouns messaging 
 This guide demonstrates how to send a message asynchronously to an HTTP service. It uses ActiveMQ as the message broker to make the invocation asynchrouns. 
