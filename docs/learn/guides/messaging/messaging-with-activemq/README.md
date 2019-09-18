@@ -25,7 +25,7 @@ As the sample scenario let’s consider a real-world use case of an online order
 
 The following diagram illustrates the scenario:
 
-![alt text](resources/messaging-with-activemq.svg)
+![alt text](../../../../assets/img/messaging_with_activemq.svg)
 
 ## Prerequisites
 - [Ballerina Distribution](https://ballerina.io/learn/getting-started/)

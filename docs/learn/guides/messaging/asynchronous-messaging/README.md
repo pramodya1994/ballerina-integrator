@@ -22,9 +22,7 @@ Here, the message is forwarded to ActiveMQ broker. If the message is sent withou
 
 The following diagram illustrates the scenario:
 
-![alt text](https://raw.githubusercontent.com/pramodya1994/ballerina-integrator/hugo-site/examples/guides/messaging/asynchronous-messaging/resources/Asynchronous_service_invocation.png)
-
-
+![alt text](../../../../assets/img/asynchronous_service_invocation.png)
 
 ## Prerequisites
 - [Ballerina Distribution](https://ballerina.io/learn/getting-started/)

@@ -18,7 +18,7 @@ This price update message should be consumed by a couple of franchisees and an i
 In this particular use case, once the admin updates the price of a product, the update message is published to a Kafka topic called `product-price` to which the franchisees and the inventory control system subscribed to listen. The following diagram illustrates this use case.
 
 
-![alt text](/resources/messaging-with-kafka.svg)
+![alt text](../../../../assets/img/messaging_with_kafka.svg)
 
 
 In this example, the Ballerina Kafka Connector is used to connect Ballerina to Apache Kafka. With this Kafka Connector, Ballerina can act as both message publisher and subscriber.

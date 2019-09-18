@@ -30,7 +30,7 @@ and it also will log the message.
 
 The following diagram illustrates the scenario:
 
-![alt text](resources/message_broadcasting_guide.svg)
+![alt text](../../../../assets/img/message_broadcasting_guide.svg)
 
 ## Prerequisites
 - [Ballerina Distribution](https://ballerina.io/learn/getting-started/)

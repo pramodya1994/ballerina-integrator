@@ -38,7 +38,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.Level;
 
 import static org.wso2.integration.ballerina.constants.Constants.BALLERINA_TOML;
 import static org.wso2.integration.ballerina.constants.Constants.CLOSE_CURLY_BRACKET;
@@ -277,7 +276,7 @@ public class SiteBuilder {
 
     /**
      * Check whether should be included in `mkdocs-content` folder.
-     * All md files other than Module.md files & all zip files are needed.
+     * All md files other than Module.md files, all zip files & image files inside `assets/img` files are needed.
      *
      * @param file file
      * @return is a unwanted file
@@ -286,8 +285,9 @@ public class SiteBuilder {
         boolean mdFile = FilenameUtils.getExtension(file.getName()).equals(MARKDOWN_FILE_EXT);
         boolean moduleMdFile = file.getName().equals("Module.md");
         boolean zipFile = FilenameUtils.getExtension(file.getName()).equals("zip");
+        boolean imgFile = file.getPath().contains("assets/img/");
 
-        return !((mdFile && !moduleMdFile) || zipFile);
+        return !((mdFile && !moduleMdFile) || zipFile || imgFile);
     }
 
     /**
