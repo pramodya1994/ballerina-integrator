@@ -13,10 +13,6 @@ jobs:
       run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     - name: Install hub
       run: brew install hub
-    - name: Install tree and show structure
-      run: |
-        brew install tree
-        tree -v --charset utf-8
     - name: Add docs PR
       run: |
         HOME=`pwd`
@@ -51,7 +47,7 @@ jobs:
         git checkout -b ${BRANCH_NAME} master
 
         # Copy `mkdocs-content` directory content to `docs-ei/en/ballerina-integrator/docs/` directory.
-        cp -r $HOME/target/mkdocs-content/* $HOME/docs-ei/en/ballerina-integrator/docs/
+        cp -r $HOME/www/target/mkdocs-content/* $HOME/docs-ei/en/ballerina-integrator/docs/
 
         # Check `git status` to ensure docs change.
         git_status=$(git status)
@@ -61,4 +57,3 @@ jobs:
             echo "There are docs changes! Need to send a PR to 'https://github.com/wso2/docs-ei' repository."
             send_pr
         fi
-        
