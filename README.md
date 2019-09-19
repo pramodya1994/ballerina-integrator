@@ -75,4 +75,4 @@ Check the issue tracker for open issues that interest you. We look forward to re
 
 Ballerina Integrator code is distributed under [Apache license 2.0](https://github.com/wso2/ballerina-integrator/blob/master/LICENSE).
 
-<!--test-->
+<!--test 1-->
