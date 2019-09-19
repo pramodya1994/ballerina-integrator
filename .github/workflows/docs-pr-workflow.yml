@@ -1,59 +1,59 @@
-name: CI
+# name: CI
 
-on: [push]
+# on: [push]
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: macOS-latest
+#     runs-on: macOS-latest
 
-    steps:
-    - uses: actions/checkout@v1
-    - name: Install brew
-      run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    - name: Install hub
-      run: brew install hub
-    - name: Add docs PR
-      run: |
-        HOME=`pwd`
-        GITHUB_USERNAME=pram0dya
-        GITHUB_PASSWORD=Welcome1994hello
-        GITHUB_ORG=pramodya1994
-        GITHUB_REPO=docs-ei
-        UPSTREAM_NAME=upstream
-        BRANCH_NAME=add-docs-ballerina-integrator
+#     steps:
+#     - uses: actions/checkout@v1
+#     - name: Install brew
+#       run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#     - name: Install hub
+#       run: brew install hub
+#     - name: Add docs PR
+#       run: |
+#         HOME=`pwd`
+#         GITHUB_USERNAME=pram0dya
+#         GITHUB_PASSWORD=Welcome1994hello
+#         GITHUB_ORG=pramodya1994
+#         GITHUB_REPO=docs-ei
+#         UPSTREAM_NAME=upstream
+#         BRANCH_NAME=add-docs-ballerina-integrator
 
-        function send_pr {
-            git commit -a -m "Add docs changes from ballerina-integrator"
-            git push ${UPSTREAM_NAME} ${BRANCH_NAME} -f
-            git request-pull ${BRANCH_NAME} https://github.com/${GITHUB_ORG}/${GITHUB_REPO} master
-        }
+#         function send_pr {
+#             git commit -a -m "Add docs changes from ballerina-integrator"
+#             git push ${UPSTREAM_NAME} ${BRANCH_NAME} -f
+#             git request-pull ${BRANCH_NAME} https://github.com/${GITHUB_ORG}/${GITHUB_REPO} master
+#         }
 
-        # build www project.
-        mvn clean install -f ${HOME}/www/pom.xml
-        # Run created a jar to create `mkdocs-content` directory.
-        java -jar $HOME/www/target/www-builder-1.0-jar-with-dependencies.jar
+#         # build www project.
+#         mvn clean install -f ${HOME}/www/pom.xml
+#         # Run created a jar to create `mkdocs-content` directory.
+#         java -jar $HOME/www/target/www-builder-1.0-jar-with-dependencies.jar
 
-        # Clone `docs-ei` repo.
-        git clone https://${GITHUB_USERNAME}:${GITHUB_PASSWORD}@github.com/${GITHUB_ORG}/${GITHUB_REPO}.git
-        cd ${GITHUB_REPO}
+#         # Clone `docs-ei` repo.
+#         git clone https://${GITHUB_USERNAME}:${GITHUB_PASSWORD}@github.com/${GITHUB_ORG}/${GITHUB_REPO}.git
+#         cd ${GITHUB_REPO}
         
-        # Fork `docs-ei` repo.
-        hub fork
-        # Add upstream
-        git remote add ${UPSTREAM_NAME} https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}.git
+#         # Fork `docs-ei` repo.
+#         hub fork
+#         # Add upstream
+#         git remote add ${UPSTREAM_NAME} https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}.git
 
-        # Checkout to new branch with the name `Docs-<32-character-length-uuid>`
-        git checkout -b ${BRANCH_NAME} master
+#         # Checkout to new branch with the name `Docs-<32-character-length-uuid>`
+#         git checkout -b ${BRANCH_NAME} master
 
-        # Copy `mkdocs-content` directory content to `docs-ei/en/ballerina-integrator/docs/` directory.
-        cp -r $HOME/www/target/mkdocs-content/* $HOME/docs-ei/en/ballerina-integrator/docs/
+#         # Copy `mkdocs-content` directory content to `docs-ei/en/ballerina-integrator/docs/` directory.
+#         cp -r $HOME/www/target/mkdocs-content/* $HOME/docs-ei/en/ballerina-integrator/docs/
 
-        # Check `git status` to ensure docs change.
-        git_status=$(git status)
-        if [[ ${git_status} == *."nothing to commit, working tree clean".* ]]; then
-            echo "No docs changes!"
-            else
-            echo "There are docs changes! Need to send a PR to 'https://github.com/wso2/docs-ei' repository."
-            send_pr
-        fi
+#         # Check `git status` to ensure docs change.
+#         git_status=$(git status)
+#         if [[ ${git_status} == *."nothing to commit, working tree clean".* ]]; then
+#             echo "No docs changes!"
+#             else
+#             echo "There are docs changes! Need to send a PR to 'https://github.com/wso2/docs-ei' repository."
+#             send_pr
+#         fi
